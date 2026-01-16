@@ -1,0 +1,127 @@
+--// Koda.cc Command Prompt Loader
+--// Black CMD UI | Key Required | Invisible Input
+--// ASCII Art Version
+--// Made for Acx
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- REQUIRED KEY
+local REQUIRED_KEY = "KodaFree_" -- palitan mo kung gusto
+
+-- SCRIPT TO LOAD AFTER KEY
+local LOAD_SCRIPT = "https://pastefy.app/iidMFfi6/raw"
+
+-- ScreenGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "KodaCmdLoader"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = game:GetService("CoreGui")
+
+-- Main Frame (LARGER)
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 620, 0, 360)
+MainFrame.Position = UDim2.new(0.5, -310, 0.5, -180)
+MainFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Parent = ScreenGui
+
+-- Title
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, -50, 0, 40)
+Title.Position = UDim2.new(0, 15, 0, 5)
+Title.BackgroundTransparency = 1
+Title.Text = "Koda.cc Loader"
+Title.Font = Enum.Font.Code
+Title.TextSize = 18
+Title.TextColor3 = Color3.new(1,1,1)
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Parent = MainFrame
+
+-- Close Button (WHITE X)
+local CloseButton = Instance.new("TextButton")
+CloseButton.Size = UDim2.new(0, 32, 0, 32)
+CloseButton.Position = UDim2.new(1, -38, 0, 6)
+CloseButton.BackgroundTransparency = 1
+CloseButton.Text = "X"
+CloseButton.Font = Enum.Font.Code
+CloseButton.TextSize = 20
+CloseButton.TextColor3 = Color3.new(1,1,1)
+CloseButton.Parent = MainFrame
+
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+-- ASCII ART (CENTER)
+local AsciiText = Instance.new("TextLabel")
+AsciiText.Size = UDim2.new(1, -40, 0, 220)
+AsciiText.Position = UDim2.new(0, 20, 0.22, 0)
+AsciiText.BackgroundTransparency = 1
+AsciiText.TextWrapped = false
+AsciiText.RichText = false
+AsciiText.TextXAlignment = Enum.TextXAlignment.Left
+AsciiText.TextYAlignment = Enum.TextYAlignment.Center
+AsciiText.Font = Enum.Font.Code
+AsciiText.TextSize = 13
+AsciiText.TextColor3 = Color3.new(1,1,1)
+
+AsciiText.Text = [[
+                                         
+ mm   mmm                  mm           
+ ##  ##"                   ##           
+ ##m##      m####m    m###m##   m#####m 
+ #####     ##"  "##  ##"  "##   " mmm## 
+ ##  ##m   ##    ##  ##    ##  m##"""## 
+ ##   ##m  "##mm##"  "##mm###  ##mmm### 
+ ""    ""    """"      """ ""   """" "" 
+                                        
+                                        
+]]
+
+AsciiText.Parent = MainFrame
+
+-- Command Line
+local CmdLine = Instance.new("TextLabel")
+CmdLine.Size = UDim2.new(1, -40, 0, 30)
+CmdLine.Position = UDim2.new(0, 20, 1, -55)
+CmdLine.BackgroundTransparency = 1
+CmdLine.RichText = true
+CmdLine.Text = "<font color='rgb(255,0,0)'>[ - ]</font> <font color='rgb(255,255,255)'>Key:</font>"
+CmdLine.Font = Enum.Font.Code
+CmdLine.TextSize = 16
+CmdLine.TextXAlignment = Enum.TextXAlignment.Left
+CmdLine.Parent = MainFrame
+
+-- Invisible TextBox (KEY INPUT)
+local KeyBox = Instance.new("TextBox")
+KeyBox.Size = CmdLine.Size
+KeyBox.Position = CmdLine.Position
+KeyBox.BackgroundTransparency = 1
+KeyBox.TextTransparency = 1
+KeyBox.ClearTextOnFocus = false
+KeyBox.Text = ""
+KeyBox.Parent = MainFrame
+KeyBox:CaptureFocus()
+
+-- KEY CHECK
+KeyBox.FocusLost:Connect(function(enterPressed)
+    if not enterPressed then return end
+
+    if KeyBox.Text == REQUIRED_KEY then
+        CmdLine.Text = "<font color='rgb(0,255,0)'>[ ✓ ]</font> <font color='rgb(255,255,255)'>Access Granted</font>"
+        task.wait(0.6)
+        ScreenGui:Destroy()
+        loadstring(game:HttpGet(LOAD_SCRIPT))()
+    else
+        CmdLine.Text = "<font color='rgb(255,0,0)'>[ X ]</font> <font color='rgb(255,255,255)'>Invalid Key</font>"
+        KeyBox.Text = ""
+        task.wait(1)
+        CmdLine.Text = "<font color='rgb(255,0,0)'>[ - ]</font> <font color='rgb(255,255,255)'>Key:</font>"
+        KeyBox:CaptureFocus()
+    end
+end)
+
+print("Koda.cc Loaded!")
